@@ -3,7 +3,38 @@ var port = process.env.PORT || 3000;
 var fs = require('fs');
 var server = http.createServer(handler);
 
-var message;
+function sendMessage(message, response) {
+  response.write(message);
+  response.end();
+}
+
+function sendFile(path, response) {
+  fs.readFile(path, function(error, file) {
+    if(error) {
+      console.log(error);
+      return;
+    }
+    response.end(file);
+  });
+}
+
+function getContentType(extension) {
+  switch(extension) {
+    case 'css':
+      return {"Content-Type" : "text/css"};
+      break;
+    case 'jpg':
+      return {"Content-Type" : "image/jpg"};
+      break;
+    case 'html':
+      return {"Content-Type" : "text/html"};
+      break;
+
+  }
+
+}
+
+
 
 
 function handler(request, response) {
@@ -11,36 +42,22 @@ function handler(request, response) {
 
   switch(endpoint) {
     case '/node':
-        message = 'NODE Endpoint - I am so happy!';
-        response.write(message);
-        response.end();
+        sendMessage('NODE Endpoint - I am so happy!', response);
       break;
 
     case '/girls':
-        message = 'GIRLS Endpoint - I am so happy';
-        response.write(message);
-        response.end();
+        sendMessage('GIRLS Endpoint - I am so happy!', response);
       break;
 
     case '/':
-        response.writeHead(200, {"Content-Type" : "text/html"});
-
-        fs.readFile(__dirname + '/public/index.html', function(error, file) {
-          if(error) {
-            console.log(error);
-            return;
-          }
-
-          response.end(file);
-        });
-
+        response.writeHead(200, getContentType('html'));
+        sendFile(__dirname + '/public/index.html', response);
       break;
 
     default:
-      message = 'I am so happy to be part of the NodeJs Workshop';
-      response.write(message);
-      response.end();
-
+      var extension = endpoint.split(".")[1];
+      response.writeHead(200, getContentType(extension));
+      sendFile(__dirname + '/public' + endpoint, response);
   }
 
 }
