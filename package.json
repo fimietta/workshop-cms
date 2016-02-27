@@ -1,0 +1,22 @@
+{
+  "name": "workshop-cms",
+  "version": "1.0.0",
+  "description": "a cms for blog post build at the nodejs workshop",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fimietta/workshop-cms.git"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "Daniela Remogna",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fimietta/workshop-cms/issues"
+  },
+  "homepage": "https://github.com/fimietta/workshop-cms#readme"
+}
